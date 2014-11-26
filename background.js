@@ -26,6 +26,12 @@ function httpGet(theUrl) {
 }
 
 function playSong() {
+  //TODO provide an interface to replace the uid
+  //     or could we pull the uid straight from the initial Deezer page, or a cookie?
+  
+  //TODO optimize, we can probably get away with making less web requests
+  
+  //TODO possibly cache all the artist IDs? and have a button to update the extension ID cache
   var uid="447219283"
   var currentinc=0 //use to store current increment of 50 for our index
   var artisturl="http://api.deezer.com/user/" + uid + "/artists?index=" + currentinc + "&limit=50"
@@ -45,6 +51,7 @@ function playSong() {
 	}
   }
   
+  //TODO verify this random does what I think it does
   var finalartist=artistids[Math.floor(Math.random() * (totalartists - 1))]
   
   var albumurl="http://api.deezer.com/artist/" + finalartist + "/albums"
@@ -70,13 +77,13 @@ function playSong() {
   var duration = tracksobj.data[rand].duration
   
   //play dat track!
-  
   var finalurl="http://www.deezer.com/track/" + finaltrack + "?autoplay=true"
   
   chrome.tabs.getCurrent(function () {
       chrome.tabs.update(null, {url: finalurl});
   });
   
+  //TODO loop or recurse the playSong() method after a timeout of the song duration
   //setTimeout(playSong(), 15000)/*(duration + 5) * 1000)*/;
 }
 
