@@ -25,7 +25,7 @@ function httpGet(theUrl) {
     return xmlHttp.responseText;
 }
 
-function playSong() {
+function playSong(tab) {
   //TODO provide an interface to replace the uid
   //     or could we pull the uid straight from the initial Deezer page, or a cookie?
   
@@ -79,14 +79,25 @@ function playSong() {
   //play dat track!
   var finalurl="http://www.deezer.com/track/" + finaltrack + "?autoplay=true"
   
-  chrome.tabs.getCurrent(function () {
-      chrome.tabs.update(null, {url: finalurl});
-  });
+  chrome.tabs.update(tab.id, {url: finalurl});
   
   //TODO loop or recurse the playSong() method after a timeout of the song duration
-  //setTimeout(playSong(), 15000)/*(duration + 5) * 1000)*/;
+  //setTimeout(playSong, 15000)/*(duration + 5) * 1000)*/;
+  
+  chrome.alarms.create('newSong', {
+        delayInMinutes : 0.5
+  });
+  
+  chrome.alarms.onAlarm.addListener(function (alarm) {
+    if (alarm.name == 'newSong') {
+        playSong(tab);
+    }
+});
 }
 
 chrome.pageAction.onClicked.addListener(function(tab) {
-  playSong();
+  chrome.tabs.query({currentWindow:true, active:true}, function(tabs) {
+	chrome.alarms.clearAll(function(cleared){});
+    playSong(tabs[0]);
+  });
 });
