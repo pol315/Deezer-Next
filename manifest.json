@@ -4,6 +4,7 @@
   "name": "Deezer Next",
   "description": "This extension hooks into Deezer to play a random track from one of your favourite artists.",
   "version": "1.0",
+  "options_page": "options.html",
   "background": {
 	"scripts": ["background.js"],
 	"persistent": false
