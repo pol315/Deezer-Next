@@ -1,8 +1,10 @@
 // Saves options to chrome.storage.sync.
 function save_options() {
   var uid = document.getElementById('uid').value;
+  var auto = document.getElementById('autoplay').checked;
   chrome.storage.sync.set({
-    UserID: uid
+    UserID: uid,
+	Autoplay: auto
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -17,9 +19,11 @@ function save_options() {
 // stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-    UserID: '447219283'
+    UserID: '447219283',
+	Autoplay: true
   }, function(items) {
     document.getElementById('uid').value = items.UserID;
+	document.getElementById('autoplay').checked = items.Autoplay;
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
