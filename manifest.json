@@ -20,6 +20,7 @@
 	"declarativeContent",
 	"tabs",
 	"alarms",
+	"storage",
 	"http://*/*",
 	"https://*/*"
   ],
