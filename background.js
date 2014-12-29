@@ -75,24 +75,10 @@ function playSong(tab) {
 	  
 	  var rand = Math.floor(Math.random() * (totaltracks - 1))
 	  var finaltrack=trackids[rand]
-	  var duration = tracksobj.data[rand].duration + 5
-	  var alarmSet = duration / 60
 	  
 	  //play dat track!
 	  var finalurl="http://www.deezer.com/track/" + finaltrack + "?autoplay=true"
-	  
 	  chrome.tabs.update(tab.id, {url: finalurl});
-	  
-	  chrome.alarms.create('newSong', {
-			delayInMinutes : alarmSet
-	  });
-	  
-	  chrome.alarms.onAlarm.addListener(function (alarm) {
-		if (alarm.name == "newSong") {
-			chrome.alarms.clear("newSong");
-			playSong(tab);
-		}
-	  });
   });
 }
 
@@ -100,8 +86,6 @@ function playSong(tab) {
 
 chrome.pageAction.onClicked.addListener(function(tab) {
   chrome.tabs.query({currentWindow:true, active:true}, function(tabs) {
-    //chrome.alarms.clear("newSong");
-	//var userid = restore_options();
 	playSong(tabs[0]);    
   });
 });
