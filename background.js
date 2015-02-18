@@ -77,8 +77,12 @@ function playSong(tab) {
 	  var finaltrack=trackids[rand]
 	  
 	  //play dat track!
-	  var finalurl="http://www.deezer.com/track/" + finaltrack + "?autoplay=true"
-	  chrome.tabs.update(tab.id, {url: finalurl});
+	  if(typeof finaltrack == "undefined") {
+		playSong(tab);
+	  } else {
+		var finalurl="http://www.deezer.com/track/" + finaltrack + "?autoplay=true"
+		chrome.tabs.update(tab.id, {url: finalurl});
+	  }
   });
 }
 
